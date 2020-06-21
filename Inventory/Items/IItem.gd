@@ -2,15 +2,15 @@ class_name IItem
 extends Node
 
 
-var i_name := "None"
+var i_name := "ItemName"
 var i_image: StreamTexture = load("res://icon.png")
+var i_description := "Short Description"
+var i_consumable := true
 var i_stackable := true
 var i_maxstack := 5
 
-onready var player = get_tree().get_nodes_in_group("Player")
 
-
-func i_use():
+func i_use(_player):
 	print("I was used ", self.i_name)
 
 

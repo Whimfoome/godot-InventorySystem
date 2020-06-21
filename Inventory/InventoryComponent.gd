@@ -11,6 +11,7 @@ export(Array, int) var start_items_amount
 
 var inv_slotstruct := Array()
 var inv_slotstack := Array()
+var interacter
 
 
 func _ready():
@@ -26,24 +27,40 @@ func prepare_inventory():
 		inv_slotstack.append(new_slot.stack_amount)
 
 
-func add_to_inventory(struct:IItem, amount:int) -> bool:
+func add_to_inventory(struct:IItem, amount:int):
+	var _succ := false
 	if struct.i_stackable:
 		var returned_stack = has_partial_stack(struct)
 		if returned_stack[0]:
-			add_to_stack(struct, amount, returned_stack[1])
-			return true
+			_succ = add_to_stack(struct, amount, returned_stack[1])
 		else:
-			create_stack(struct, amount)
-			return true
+			_succ = create_stack(struct, amount)
 	else:
-		create_stack(struct, amount)
+		_succ = create_stack(struct, amount)
+	return _succ
+
+
+func create_stack(struct:IItem, amount:int) -> bool:
+	var has_space := false
+	for i in range(inv_slotstack.size()):
+		if inv_slotstack[i] <= 0:
+			has_space = true
+			break
+	if has_space:
+		var index = inv_slotstack.find(0)
+		if (amount > struct.i_maxstack):
+			inv_slotstack[index] = struct.i_maxstack
+			add_to_inventory(struct, amount - struct.i_maxstack)
+		elif amount > 1 and not struct.i_stackable:
+			inv_slotstack[index] = 1
+			add_to_inventory(struct, amount - 1)
+		else:
+			inv_slotstack[index] = amount
+		inv_slotstruct[index] = struct
+		refresh_slots(index)
 		return true
-
-
-func create_stack(struct:IItem, amount:int):
-	var index = inv_slotstack.find(0)
-	inv_slotstruct[index] = struct
-	inv_slotstack[index] = amount
+	else:
+		return false
 
 
 func has_partial_stack(struct:IItem) -> Array:
@@ -63,9 +80,12 @@ func add_to_stack(struct:IItem, amount:int, index:int):
 		inv_slotstruct[index] = struct
 		inv_slotstack[index] = struct.i_maxstack
 		var _calc = amount - (struct.i_maxstack - current_amount)
-		var _success = add_to_inventory(struct, _calc)
+		if add_to_inventory(struct, _calc):
+			refresh_slots(index)
 	else:
 		inv_slotstack[index] += amount
+		refresh_slots(index)
+	return true
 
 
 func add_starting_items():
@@ -73,8 +93,23 @@ func add_starting_items():
 		var _succ = add_to_inventory(load(start_items[i]).new(), start_items_amount[i])
 
 
-func toggle_window(window_name: String, window_path: String):
+func refresh_slots(index: int):
+	if get_children() != []:
+		get_children()[0].slot_list[index].refresh_slot()
+
+
+func inv_query(item_class: String, item_amount: int) -> bool:
+	var total: int = 0
+	for i in range(inv_slotstruct.size()):
+		if inv_slotstruct[i].get_class() == item_class:
+			total += inv_slotstack[i]
+	return total >= item_amount
+
+
+func toggle_window(player, window_name: String, window_path: String):
 	if not has_node(window_name):
+		interacter = player
 		add_child(load(window_path).instance())
 	else:
+		interacter = null
 		get_child(0).queue_free()

@@ -11,6 +11,8 @@ This is easily modifiable Inventory System. It is created not as an addon, but a
 - Written in GDScript
 - The system can be extended to almost every type of game that uses Inventory (RPG, Survival, Action-Adventure, etc.)
 - To open the Player Inventory, press `Space` or `Enter`. Other things are made as buttons, but you can implement them in your game in whatever form you want.
+- Use Items with `Right Mouse Button`
+- Inventory Query with `Esc`
 
 ### Credits:
 - Based on [Ryan Laley's Inventory System Tutorial Series](https://www.youtube.com/watch?v=yxqSkFNAzE0&list=PL4G2bSPE_8uktjEdP4ZuRq5r2o4JMdZfM)

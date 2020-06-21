@@ -8,6 +8,6 @@ func _init():
 	self.i_maxstack = 4
 
 
-func i_use():
+func i_use(player):
 	player.health += 10
-	.i_use()
+	.i_use(player)
