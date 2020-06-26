@@ -1,4 +1,4 @@
-# Dynamic Inventory System
+# Dynamic Inventory System ![Godot 3.2](https://img.shields.io/badge/godot-v3.2-%23478cbf)
 This is easily modifiable Inventory System. It is created not as an addon, but as an ready Inventory System and if you need anything further, you can add it. I tried to make the code easy to read.
 
 ### How it works:
