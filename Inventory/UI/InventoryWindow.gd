@@ -6,7 +6,7 @@ var slot_list = Array()
 
 func _ready():
 	for i in range(get_parent().inv_slots):
-		var slot_child = get_parent().ItemSlotClass.instance()
+		var slot_child = preload("res://Inventory/UI/ItemSlot.tscn").instance()
 		slot_child.slot_index = i
 		$Background/InventoryGrid.add_child(slot_child)
 		slot_list.append(slot_child)
