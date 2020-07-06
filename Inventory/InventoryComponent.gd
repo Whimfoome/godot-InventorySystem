@@ -14,27 +14,28 @@ var interactor = get_parent()
 
 func _ready():
 	prepare_inventory()
-	if (start_items.size() == start_items_amount.size()) and (start_items.size() > 0):
+	if start_items.size() == start_items_amount.size() and start_items.size() > 0:
 		add_starting_items()
 
 
 func prepare_inventory():
 	if inv_slotstruct.size() <= 0:
 		for _i in range(inv_slots):
-			inv_slotstruct.append(IItem.new())
+			inv_slotstruct.append(null)
 			inv_slotstack.append(0)
 
 
 func add_to_inventory(struct:IItem, amount:int):
 	var _succ := false
-	if struct.i_stackable:
-		var returned_stack = has_partial_stack(struct)
-		if returned_stack[0]:
-			_succ = add_to_stack(struct, amount, returned_stack[1])
+	if struct != null:
+		if struct.i_stackable:
+			var returned_stack = has_partial_stack(struct)
+			if returned_stack[0]:
+				_succ = add_to_stack(struct, amount, returned_stack[1])
+			else:
+				_succ = create_stack(struct, amount)
 		else:
 			_succ = create_stack(struct, amount)
-	else:
-		_succ = create_stack(struct, amount)
 	return _succ
 
 
@@ -42,10 +43,11 @@ func has_partial_stack(struct:IItem) -> Array:
 	var loc_i: int = -1
 	var loc_b: bool = false
 	for i in range(inv_slotstack.size()):
-		if (inv_slotstruct[i].get_class() == struct.get_class()) and (inv_slotstack[i] < struct.i_maxstack):
-			loc_i = i
-			loc_b = true
-			break
+		if inv_slotstruct[i] != null:
+			if inv_slotstruct[i].i_name == struct.i_name and inv_slotstack[i] < struct.i_maxstack:
+				loc_i = i
+				loc_b = true
+				break
 	return [loc_b, loc_i]
 
 
@@ -65,26 +67,24 @@ func create_stack(struct:IItem, amount:int) -> bool:
 			add_to_inventory(struct, amount - 1)
 		else:
 			inv_slotstack[index] = amount
-		inv_slotstruct[index].queue_free()
 		inv_slotstruct[index] = struct
-		refresh_slots(index)
+		refresh_slot_at_index(index)
 		return true
 	else:
 		return false
 
 
-func add_to_stack(struct:IItem, amount:int, index:int):
+func add_to_stack(struct: IItem, amount:int, index:int):
 	var current_amount = inv_slotstack[index]
 	if (current_amount + amount) > inv_slotstruct[index].i_maxstack:
-		inv_slotstruct[index].queue_free()
-		inv_slotstruct[index] = struct
 		inv_slotstack[index] = struct.i_maxstack
 		var _calc = amount - (struct.i_maxstack - current_amount)
 		if add_to_inventory(struct, _calc):
-			refresh_slots(index)
+			refresh_slot_at_index(index)
 	else:
 		inv_slotstack[index] += amount
-		refresh_slots(index)
+		struct.queue_free()
+		refresh_slot_at_index(index)
 	return true
 
 
@@ -93,11 +93,12 @@ func add_starting_items():
 		var _succ = add_to_inventory(load(start_items[i]).new(), start_items_amount[i])
 
 
-func inv_query(item_class: String, item_amount: int) -> bool:
+func inv_query(item_name: String, item_amount: int) -> bool:
 	var total: int = 0
 	for i in range(inv_slotstruct.size()):
-		if inv_slotstruct[i].get_class() == item_class:
-			total += inv_slotstack[i]
+		if inv_slotstruct[i] != null:
+			if inv_slotstruct[i].i_name == item_name:
+				total += inv_slotstack[i]
 	return total >= item_amount
 
 
@@ -106,10 +107,10 @@ func use_item_at_slot(index: int):
 		inv_slotstruct[index].i_use(interactor)
 		if inv_slotstruct[index].i_consumable:
 			inv_slotstack[index] -= 1
-			refresh_slots(index)
+			refresh_slot_at_index(index)
 
 
-func refresh_slots(index: int):
+func refresh_slot_at_index(index: int):
 	if get_children() != []:
 		get_children()[0].slot_list[index].refresh_slot()
 

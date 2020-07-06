@@ -8,55 +8,6 @@
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
 
-[node name="Items" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AppleItems" type="Control" parent="Items"]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="AddItem" parent="Items/AppleItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Apple.gd"
-
-[node name="AddItem2" parent="Items/AppleItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Apple.gd"
-
-[node name="AddItem3" parent="Items/AppleItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Apple.gd"
-
-[node name="AddItem4" parent="Items/AppleItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Apple.gd"
-
-[node name="AddItem5" parent="Items/AppleItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Apple.gd"
-
-[node name="MushroomItems" type="Control" parent="Items"]
-margin_top = 50.0
-margin_right = 40.0
-margin_bottom = 90.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AddItem6" parent="Items/MushroomItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Mushroom.gd"
-
-[node name="AddItem7" parent="Items/MushroomItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Mushroom.gd"
-
-[node name="AddItem8" parent="Items/MushroomItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Mushroom.gd"
-
-[node name="AddItem9" parent="Items/MushroomItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Mushroom.gd"
-
-[node name="AddItem10" parent="Items/MushroomItems" instance=ExtResource( 3 )]
-directory = "res://Inventory/Items/Item_Mushroom.gd"
-
 [node name="Container" parent="." instance=ExtResource( 1 )]
 margin_left = 58.4958
 margin_top = 19.0931
@@ -66,5 +17,52 @@ margin_bottom = 69.0931
 [node name="InventoryComponent" parent="Container" index="1"]
 start_items = [ "res://Inventory/Items/Item_Apple.gd", "res://Inventory/Items/Item_Mushroom.gd" ]
 start_items_amount = [ 4, 1 ]
+
+[node name="Items" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddItem" parent="Items" instance=ExtResource( 3 )]
+directory = "res://Inventory/Items/Item_Apple.gd"
+
+[node name="AddItem2" parent="Items" instance=ExtResource( 3 )]
+directory = "res://Inventory/Items/Item_Apple.gd"
+
+[node name="AddItem3" parent="Items" instance=ExtResource( 3 )]
+directory = "res://Inventory/Items/Item_Apple.gd"
+
+[node name="AddItem4" parent="Items" instance=ExtResource( 3 )]
+directory = "res://Inventory/Items/Item_Apple.gd"
+
+[node name="AddItem5" parent="Items" instance=ExtResource( 3 )]
+directory = "res://Inventory/Items/Item_Apple.gd"
+
+[node name="AddItem6" parent="Items" instance=ExtResource( 3 )]
+margin_top = 50.0
+margin_bottom = 90.0
+directory = "res://Inventory/Items/Item_Mushroom.gd"
+
+[node name="AddItem7" parent="Items" instance=ExtResource( 3 )]
+margin_top = 50.0
+margin_bottom = 90.0
+directory = "res://Inventory/Items/Item_Mushroom.gd"
+
+[node name="AddItem8" parent="Items" instance=ExtResource( 3 )]
+margin_top = 50.0
+margin_bottom = 90.0
+directory = "res://Inventory/Items/Item_Mushroom.gd"
+
+[node name="AddItem9" parent="Items" instance=ExtResource( 3 )]
+margin_top = 50.0
+margin_bottom = 90.0
+directory = "res://Inventory/Items/Item_Mushroom.gd"
+
+[node name="AddItem10" parent="Items" instance=ExtResource( 3 )]
+margin_top = 50.0
+margin_bottom = 90.0
+directory = "res://Inventory/Items/Item_Mushroom.gd"
 
 [editable path="Container"]

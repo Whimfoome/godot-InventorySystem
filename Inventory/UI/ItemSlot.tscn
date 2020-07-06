@@ -25,6 +25,7 @@ margin_left = 5.0
 margin_top = 5.0
 margin_right = -4.99999
 margin_bottom = -4.99999
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -51,16 +52,4 @@ max_lines_visible = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Button" type="Button" parent="Background"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-focus_mode = 0
-shortcut_in_tooltip = false
-button_mask = 3
-enabled_focus_mode = 0
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-[connection signal="gui_input" from="Background/Button" to="." method="_on_Button_gui_input"]
+[connection signal="gui_input" from="Background" to="." method="_on_gui_input_signal"]

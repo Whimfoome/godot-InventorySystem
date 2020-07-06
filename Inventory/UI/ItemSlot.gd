@@ -15,11 +15,15 @@ func _ready():
 
 
 func refresh_slot():
-	if inventory_comp.inv_slotstruct[slot_index] == null:
-		inventory_comp.inv_slotstruct[slot_index] = IItem.new()
-	
 	item_struct = inventory_comp.inv_slotstruct[slot_index]
 	stack_amount = inventory_comp.inv_slotstack[slot_index]
+	
+	if item_struct != null:
+		ui_image.texture = item_struct.i_image
+		ui_stackamount.text = str(stack_amount)
+	else:
+		stack_amount = 0
+		inventory_comp.inv_slotstack[slot_index] = 0
 	
 	if stack_amount <= 0:
 		stack_amount = 0
@@ -27,29 +31,29 @@ func refresh_slot():
 		
 		ui_image.visible = false
 		ui_stackamount.visible = false
+		
+		if item_struct != null:
+			item_struct.queue_free()
 	else:
 		ui_image.visible = true
 		ui_stackamount.visible = true
-	
-	ui_image.texture = item_struct.i_image
-	ui_stackamount.text = str(stack_amount)
 
 
-func _on_Button_gui_input(event):
+func _on_gui_input_signal(event):
 	if event is InputEventMouseButton:
 		# not event.pressed means released
 		if event.button_index == BUTTON_LEFT and not event.pressed:
 			pass
 		elif event.button_index == BUTTON_RIGHT and not event.pressed:
-			if inventory_comp.inv_slotstack[slot_index] > 0:
+			if inventory_comp.inv_slotstruct[slot_index] != null:
 				var interactor_inventory_comp = inventory_comp.interactor.get_node("InventoryComponent")
 				
 				if inventory_comp == interactor_inventory_comp:
-					item_struct.i_use(inventory_comp.interactor)
-					if item_struct.i_consumable:
-						inventory_comp.inv_slotstack[slot_index] -= 1
-						refresh_slot()
-				else:
-					if interactor_inventory_comp.add_to_inventory(item_struct, stack_amount):
-						inventory_comp.inv_slotstack[slot_index] = 0
-						refresh_slot()
+					inventory_comp.use_item_at_slot(slot_index)
+				elif interactor_inventory_comp.add_to_inventory(item_struct, stack_amount):
+					inventory_comp.inv_slotstruct[slot_index] = null
+					inventory_comp.inv_slotstack[slot_index] = 0
+					print("hellooooo")
+					refresh_slot()
+			else:
+				refresh_slot()

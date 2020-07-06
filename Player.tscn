@@ -11,3 +11,5 @@ script = ExtResource( 2 )
 [node name="InventoryComponent" parent="." instance=ExtResource( 1 )]
 inv_name = "Backpack"
 inv_slots = 14
+start_items = [ "res://Inventory/Items/Item_Apple.gd" ]
+start_items_amount = [ 3 ]
