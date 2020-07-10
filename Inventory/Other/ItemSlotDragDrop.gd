@@ -1,0 +1,62 @@
+extends ColorRect
+# !!! Crashes if you close the Inventory Window while Dragging !!!
+# Uses Drag And Drop Built-In Function
+#
+# Implemented Tooltip here (Built-In Function)
+# to work 'hint_tooltip' (in Hint property) should not be empty
+#
+# Ctrl Click the functions for more information
+
+
+onready var slot = get_parent()
+
+
+func get_drag_data(_pos):
+	if slot.item_struct != null:
+		var preview = TextureRect.new()
+		preview.texture = slot.item_struct.i_image
+		preview.expand = true
+		preview.rect_size = Vector2(80, 80)
+		set_drag_preview(preview)
+		return slot
+	else:
+		return null
+
+
+func can_drop_data(_pos, data):
+	if data.item_struct is IItem:
+		return true
+	else:
+		return false
+
+
+func drop_data(_pos, data):
+	if slot.item_struct != null:
+		if not slot.item_struct.i_stackable or not data.item_struct.i_stackable:
+			slot.inventory_comp.inv_slotstack[slot.slot_index] = data.stack_amount
+			data.inventory_comp.inv_slotstack[data.slot_index] = slot.stack_amount
+		else:
+			if data.stack_amount + slot.stack_amount > slot.item_struct.i_maxstack:
+				slot.inventory_comp.inv_slotstack[slot.slot_index] = slot.item_struct.i_maxstack
+			else:
+				slot.inventory_comp.inv_slotstack[slot.slot_index] = slot.stack_amount + data.stack_amount
+			
+			(data.inventory_comp.inv_slotstack[data.slot_index] -= 
+					slot.inventory_comp.inv_slotstack[slot.slot_index] - slot.stack_amount)
+	else:
+		slot.inventory_comp.inv_slotstack[slot.slot_index] = data.stack_amount
+		data.inventory_comp.inv_slotstack[data.slot_index] = slot.stack_amount
+	
+	slot.inventory_comp.inv_slotstruct[slot.slot_index] = data.item_struct
+	data.inventory_comp.inv_slotstruct[data.slot_index] = slot.item_struct
+	slot.refresh_slot()
+	data.refresh_slot()
+
+
+func _make_custom_tooltip(_textt):
+	var label = Label.new()
+	if slot.item_struct != null:
+		label.text = slot.item_struct.i_description
+	else:
+		label.text = ""
+	return label

@@ -42,18 +42,16 @@ func refresh_slot():
 func _on_gui_input_signal(event):
 	if event is InputEventMouseButton:
 		# not event.pressed means released
-		if event.button_index == BUTTON_LEFT and not event.pressed:
-			pass
-		elif event.button_index == BUTTON_RIGHT and not event.pressed:
+		if event.button_index == BUTTON_RIGHT and not event.pressed:
 			if inventory_comp.inv_slotstruct[slot_index] != null:
 				var interactor_inventory_comp = inventory_comp.interactor.get_node("InventoryComponent")
 				
 				if inventory_comp == interactor_inventory_comp:
 					inventory_comp.use_item_at_slot(slot_index)
+				# If right clicking item from a Container, don't use it, but add it
 				elif interactor_inventory_comp.add_to_inventory(item_struct, stack_amount):
 					inventory_comp.inv_slotstruct[slot_index] = null
 					inventory_comp.inv_slotstack[slot_index] = 0
-					print("hellooooo")
 					refresh_slot()
 			else:
 				refresh_slot()

@@ -74,7 +74,7 @@ func create_stack(struct:IItem, amount:int) -> bool:
 		return false
 
 
-func add_to_stack(struct: IItem, amount:int, index:int):
+func add_to_stack(struct:IItem, amount:int, index:int):
 	var current_amount = inv_slotstack[index]
 	if (current_amount + amount) > inv_slotstruct[index].i_maxstack:
 		inv_slotstack[index] = struct.i_maxstack
@@ -90,7 +90,12 @@ func add_to_stack(struct: IItem, amount:int, index:int):
 
 func add_starting_items():
 	for i in start_items.size():
-		var _succ = add_to_inventory(load(start_items[i]).new(), start_items_amount[i])
+		var item = load(start_items[i]).new()
+		
+		if item.i_stackable and start_items_amount[i] > item.i_maxstack:
+			add_to_inventory(item, item.i_maxstack)
+		else:
+			add_to_inventory(item, start_items_amount[i])
 
 
 func inv_query(item_name: String, item_amount: int) -> bool:
@@ -112,7 +117,7 @@ func use_item_at_slot(index: int):
 
 func refresh_slot_at_index(index: int):
 	if get_children() != []:
-		get_children()[0].slot_list[index].refresh_slot()
+		get_child(0).slot_list[index].refresh_slot()
 
 
 func toggle_window(player, window_name: String, window_path: String):

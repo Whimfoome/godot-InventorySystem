@@ -8,6 +8,7 @@ func _input(event):
 	if event.is_action_pressed("ui_accept"):
 		$InventoryComponent.toggle_window(self, "InventoryWindow", "res://Inventory/UI/InventoryWindow.tscn")
 	
+	# Query test by hitting 'Esc' for Apple
 	if event.is_action_pressed("ui_cancel"):
 		if $InventoryComponent.inv_query("Apple", 2):
 			print("it has 2 apples or more")
