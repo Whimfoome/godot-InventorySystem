@@ -23,8 +23,9 @@ func get_drag_data(_pos):
 
 
 func can_drop_data(_pos, data):
-	if data.item_struct is IItem:
-		return true
+	if data != null:
+		if data.item_struct is IItem:
+			return true
 	else:
 		return false
 
