@@ -10,6 +10,7 @@ export(Array, int) var start_items_amount
 var inv_slotstruct := Array()
 var inv_slotstack := Array()
 var interactor = get_parent()
+var window_name := ""
 
 
 func _ready():
@@ -116,14 +117,18 @@ func use_item_at_slot(index: int):
 
 
 func refresh_slot_at_index(index: int):
-	if get_children() != []:
-		get_child(0).slot_list[index].refresh_slot()
+	if window_name != "":
+		interactor.gui.get_node(window_name).slot_list[index].refresh_slot()
 
 
-func toggle_window(player, window_name: String, window_path: String):
-	if not has_node(window_name):
+func toggle_window(player, window: String, window_path: String):
+	if window_name == "":
 		interactor = player
-		add_child(load(window_path).instance())
+		var new_window = load(window_path).instance()
+		new_window.inv_comp = self
+		interactor.gui.add_child(new_window)
+		window_name = window
 	else:
+		interactor.gui.get_node(window).queue_free()
 		interactor = get_parent()
-		get_child(0).queue_free()
+		window_name = ""

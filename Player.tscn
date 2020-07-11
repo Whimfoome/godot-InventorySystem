@@ -11,3 +11,11 @@ script = ExtResource( 2 )
 [node name="InventoryComponent" parent="." instance=ExtResource( 1 )]
 inv_name = "Backpack"
 inv_slots = 14
+
+[node name="GUI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,5 +1,4 @@
 extends ColorRect
-# !!! Crashes if you close the Inventory Window while Dragging !!!
 # Uses Drag And Drop Built-In Function
 #
 # Implemented Tooltip here (Built-In Function)
@@ -33,22 +32,22 @@ func can_drop_data(_pos, data):
 func drop_data(_pos, data):
 	if slot.item_struct != null:
 		if not slot.item_struct.i_stackable or not data.item_struct.i_stackable:
-			slot.inventory_comp.inv_slotstack[slot.slot_index] = data.stack_amount
-			data.inventory_comp.inv_slotstack[data.slot_index] = slot.stack_amount
+			slot.inv_comp.inv_slotstack[slot.slot_index] = data.stack_amount
+			data.inv_comp.inv_slotstack[data.slot_index] = slot.stack_amount
 		else:
 			if data.stack_amount + slot.stack_amount > slot.item_struct.i_maxstack:
-				slot.inventory_comp.inv_slotstack[slot.slot_index] = slot.item_struct.i_maxstack
+				slot.inv_comp.inv_slotstack[slot.slot_index] = slot.item_struct.i_maxstack
 			else:
-				slot.inventory_comp.inv_slotstack[slot.slot_index] = slot.stack_amount + data.stack_amount
+				slot.inv_comp.inv_slotstack[slot.slot_index] = slot.stack_amount + data.stack_amount
 			
-			(data.inventory_comp.inv_slotstack[data.slot_index] -= 
-					slot.inventory_comp.inv_slotstack[slot.slot_index] - slot.stack_amount)
+			(data.inv_comp.inv_slotstack[data.slot_index] -= 
+					slot.inv_comp.inv_slotstack[slot.slot_index] - slot.stack_amount)
 	else:
-		slot.inventory_comp.inv_slotstack[slot.slot_index] = data.stack_amount
-		data.inventory_comp.inv_slotstack[data.slot_index] = slot.stack_amount
+		slot.inv_comp.inv_slotstack[slot.slot_index] = data.stack_amount
+		data.inv_comp.inv_slotstack[data.slot_index] = slot.stack_amount
 	
-	slot.inventory_comp.inv_slotstruct[slot.slot_index] = data.item_struct
-	data.inventory_comp.inv_slotstruct[data.slot_index] = slot.item_struct
+	slot.inv_comp.inv_slotstruct[slot.slot_index] = data.item_struct
+	data.inv_comp.inv_slotstruct[data.slot_index] = slot.item_struct
 	slot.refresh_slot()
 	data.refresh_slot()
 

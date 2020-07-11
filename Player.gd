@@ -1,7 +1,9 @@
 extends Node
 
 
+export(NodePath) var gui_path = "GUI"
 var health := 100
+onready var gui = get_node(gui_path)
 
 
 func _input(event):
