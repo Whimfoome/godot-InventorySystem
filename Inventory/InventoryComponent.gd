@@ -7,8 +7,8 @@ export(int) var inv_slots = 5
 export(Array, String, FILE, "*.gd") var start_items
 export(Array, int) var start_items_amount
 
-var inv_slotstruct := Array()
-var inv_slotstack := Array()
+var inv_struct_list := Array()
+var inv_amount_list := Array()
 var interactor = get_parent()
 var window_name := ""
 
@@ -20,10 +20,10 @@ func _ready():
 
 
 func prepare_inventory():
-	if inv_slotstruct.size() <= 0:
+	if inv_struct_list.size() <= 0:
 		for _i in range(inv_slots):
-			inv_slotstruct.append(null)
-			inv_slotstack.append(0)
+			inv_struct_list.append(null)
+			inv_amount_list.append(0)
 
 
 func add_to_inventory(struct:IItem, amount:int):
@@ -43,9 +43,9 @@ func add_to_inventory(struct:IItem, amount:int):
 func has_partial_stack(struct:IItem) -> Array:
 	var loc_i: int = -1
 	var loc_b: bool = false
-	for i in range(inv_slotstack.size()):
-		if inv_slotstruct[i] != null:
-			if inv_slotstruct[i].i_name == struct.i_name and inv_slotstack[i] < struct.i_maxstack:
+	for i in range(inv_amount_list.size()):
+		if inv_struct_list[i] != null:
+			if inv_struct_list[i].i_name == struct.i_name and inv_amount_list[i] < struct.i_maxstack:
 				loc_i = i
 				loc_b = true
 				break
@@ -54,21 +54,21 @@ func has_partial_stack(struct:IItem) -> Array:
 
 func create_stack(struct:IItem, amount:int) -> bool:
 	var has_space := false
-	for i in range(inv_slotstack.size()):
-		if inv_slotstack[i] <= 0:
+	for i in range(inv_amount_list.size()):
+		if inv_amount_list[i] <= 0:
 			has_space = true
 			break
 	if has_space:
-		var index = inv_slotstack.find(0)
+		var index = inv_amount_list.find(0)
 		if (amount > struct.i_maxstack):
-			inv_slotstack[index] = struct.i_maxstack
+			inv_amount_list[index] = struct.i_maxstack
 			add_to_inventory(struct, amount - struct.i_maxstack)
 		elif amount > 1 and not struct.i_stackable:
-			inv_slotstack[index] = 1
+			inv_amount_list[index] = 1
 			add_to_inventory(struct, amount - 1)
 		else:
-			inv_slotstack[index] = amount
-		inv_slotstruct[index] = struct
+			inv_amount_list[index] = amount
+		inv_struct_list[index] = struct
 		refresh_slot_at_index(index)
 		return true
 	else:
@@ -76,14 +76,14 @@ func create_stack(struct:IItem, amount:int) -> bool:
 
 
 func add_to_stack(struct:IItem, amount:int, index:int):
-	var current_amount = inv_slotstack[index]
-	if (current_amount + amount) > inv_slotstruct[index].i_maxstack:
-		inv_slotstack[index] = struct.i_maxstack
+	var current_amount = inv_amount_list[index]
+	if (current_amount + amount) > inv_struct_list[index].i_maxstack:
+		inv_amount_list[index] = struct.i_maxstack
 		var _calc = amount - (struct.i_maxstack - current_amount)
 		if add_to_inventory(struct, _calc):
 			refresh_slot_at_index(index)
 	else:
-		inv_slotstack[index] += amount
+		inv_amount_list[index] += amount
 		struct.queue_free()
 		refresh_slot_at_index(index)
 	return true
@@ -101,18 +101,18 @@ func add_starting_items():
 
 func inv_query(item_name: String, item_amount: int) -> bool:
 	var total: int = 0
-	for i in range(inv_slotstruct.size()):
-		if inv_slotstruct[i] != null:
-			if inv_slotstruct[i].i_name == item_name:
-				total += inv_slotstack[i]
+	for i in range(inv_struct_list.size()):
+		if inv_struct_list[i] != null:
+			if inv_struct_list[i].i_name == item_name:
+				total += inv_amount_list[i]
 	return total >= item_amount
 
 
 func use_item_at_slot(index: int):
-	if inv_slotstack[index] > 0:
-		inv_slotstruct[index].i_use(interactor)
-		if inv_slotstruct[index].i_consumable:
-			inv_slotstack[index] -= 1
+	if inv_amount_list[index] > 0:
+		inv_struct_list[index].i_use(interactor)
+		if inv_struct_list[index].i_consumable:
+			inv_amount_list[index] -= 1
 			refresh_slot_at_index(index)
 
 

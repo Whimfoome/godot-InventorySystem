@@ -35,22 +35,22 @@ func can_drop_data(_pos, data) -> bool:
 func drop_data(_pos, data):
 	if slot.item_struct != null:
 		if not slot.item_struct.i_stackable or not data.item_struct.i_stackable:
-			slot.inv_comp.inv_slotstack[slot.slot_index] = data.stack_amount
-			data.inv_comp.inv_slotstack[data.slot_index] = slot.stack_amount
+			slot.inv_comp.inv_amount_list[slot.slot_index] = data.stack_amount
+			data.inv_comp.inv_amount_list[data.slot_index] = slot.stack_amount
 		else:
 			if data.stack_amount + slot.stack_amount > slot.item_struct.i_maxstack:
-				slot.inv_comp.inv_slotstack[slot.slot_index] = slot.item_struct.i_maxstack
+				slot.inv_comp.inv_amount_list[slot.slot_index] = slot.item_struct.i_maxstack
 			else:
-				slot.inv_comp.inv_slotstack[slot.slot_index] = slot.stack_amount + data.stack_amount
+				slot.inv_comp.inv_amount_list[slot.slot_index] = slot.stack_amount + data.stack_amount
 			
-			(data.inv_comp.inv_slotstack[data.slot_index] -= 
-					slot.inv_comp.inv_slotstack[slot.slot_index] - slot.stack_amount)
+			(data.inv_comp.inv_amount_list[data.slot_index] -= 
+					slot.inv_comp.inv_amount_list[slot.slot_index] - slot.stack_amount)
 	else:
-		slot.inv_comp.inv_slotstack[slot.slot_index] = data.stack_amount
-		data.inv_comp.inv_slotstack[data.slot_index] = slot.stack_amount
+		slot.inv_comp.inv_amount_list[slot.slot_index] = data.stack_amount
+		data.inv_comp.inv_amount_list[data.slot_index] = slot.stack_amount
 	
-	slot.inv_comp.inv_slotstruct[slot.slot_index] = data.item_struct
-	data.inv_comp.inv_slotstruct[data.slot_index] = slot.item_struct
+	slot.inv_comp.inv_struct_list[slot.slot_index] = data.item_struct
+	data.inv_comp.inv_struct_list[data.slot_index] = slot.item_struct
 	slot.refresh_slot()
 	data.refresh_slot()
 
