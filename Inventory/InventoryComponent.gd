@@ -54,22 +54,23 @@ func has_partial_stack(struct:IItem) -> Array:
 
 func create_stack(struct:IItem, amount:int) -> bool:
 	var has_space := false
+	var found_index: int
 	for i in range(inv_amount_list.size()):
 		if inv_amount_list[i] <= 0:
 			has_space = true
+			found_index = i
 			break
 	if has_space:
-		var index = inv_amount_list.find(0)
 		if (amount > struct.i_maxstack):
-			inv_amount_list[index] = struct.i_maxstack
+			inv_amount_list[found_index] = struct.i_maxstack
 			add_to_inventory(struct, amount - struct.i_maxstack)
 		elif amount > 1 and not struct.i_stackable:
-			inv_amount_list[index] = 1
+			inv_amount_list[found_index] = 1
 			add_to_inventory(struct, amount - 1)
 		else:
-			inv_amount_list[index] = amount
-		inv_struct_list[index] = struct
-		refresh_slot_at_index(index)
+			inv_amount_list[found_index] = amount
+		inv_struct_list[found_index] = struct
+		refresh_slot_at_index(found_index)
 		return true
 	else:
 		return false
