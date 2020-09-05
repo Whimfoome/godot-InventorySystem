@@ -6,11 +6,12 @@ export(String) var inv_name = "Name"
 export(int) var inv_slots = 5
 export(Array, String, FILE, "*.gd") var start_items
 export(Array, int) var start_items_amount
+export(PackedScene) var window_scene
 
 var inv_struct_list := Array()
 var inv_amount_list := Array()
 var interactor = get_parent()
-var window_name := ""
+var window_ref # Type: Inventory Window (setting in toggle_window())
 
 
 func _ready():
@@ -118,18 +119,17 @@ func use_item_at_slot(index: int):
 
 
 func refresh_slot_at_index(index: int):
-	if window_name != "":
-		interactor.gui.get_node(window_name).slot_list[index].refresh_slot()
+	if window_ref != null:
+		window_ref.slot_list[index].refresh_slot()
 
 
-func toggle_window(player, window: String, window_path: String):
-	if window_name == "":
+func toggle_window(player):
+	if window_ref == null:
 		interactor = player
-		var new_window = load(window_path).instance()
+		var new_window = window_scene.instance()
 		new_window.inv_comp = self
 		interactor.gui.add_child(new_window)
-		window_name = window
+		window_ref = new_window
 	else:
-		interactor.gui.get_node(window).queue_free()
+		window_ref.queue_free()
 		interactor = get_parent()
-		window_name = ""

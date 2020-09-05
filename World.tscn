@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Inventory/Other/Container.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Inventory/Other/ContainerWindow.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Inventory/Other/AddItem.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=4]
 
@@ -17,6 +18,7 @@ margin_bottom = 69.0931
 [node name="InventoryComponent" parent="Container" index="1"]
 start_items = [ "res://Inventory/Items/Item_Apple.gd", "res://Inventory/Items/Item_Mushroom.gd" ]
 start_items_amount = [ 4, 1 ]
+window_scene = ExtResource( 2 )
 
 [node name="Items" type="Control" parent="."]
 margin_right = 40.0

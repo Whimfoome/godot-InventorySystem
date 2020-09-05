@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Inventory/UI/InventoryWindow.gd" type="Script" id=1]
+[ext_resource path="res://Inventory/UI/ItemSlot.tscn" type="PackedScene" id=2]
 
 [node name="ContainerWindow" type="MarginContainer"]
 anchor_left = 0.5
@@ -18,6 +19,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+slot_scene = ExtResource( 2 )
 
 [node name="Background" type="ColorRect" parent="."]
 margin_right = 800.0
