@@ -4,7 +4,7 @@ extends Node
 
 export(String) var inv_name = "Name"
 export(int) var inv_slots = 5
-export(Array, String, FILE, "*.gd") var start_items
+export(Array, Script) var start_items
 export(Array, int) var start_items_amount
 export(PackedScene) var window_scene
 
@@ -93,7 +93,7 @@ func add_to_stack(struct:IItem, amount:int, index:int):
 
 func add_starting_items():
 	for i in start_items.size():
-		var item = load(start_items[i]).new()
+		var item = start_items[i].new()
 		
 		if item.i_stackable and start_items_amount[i] > item.i_maxstack:
 			add_to_inventory(item, item.i_maxstack)
