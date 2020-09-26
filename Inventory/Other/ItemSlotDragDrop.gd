@@ -34,7 +34,7 @@ func can_drop_data(_pos, data) -> bool:
 
 func drop_data(_pos, data):
 	if slot.item_struct != null:
-		if not slot.item_struct.i_stackable or not data.item_struct.i_stackable:
+		if not slot.item_struct.i_stackable or not data.item_struct.i_stackable or slot.item_struct != data.item_struct:
 			slot.inv_comp.inv_amount_list[slot.slot_index] = data.stack_amount
 			data.inv_comp.inv_amount_list[data.slot_index] = slot.stack_amount
 		else:
