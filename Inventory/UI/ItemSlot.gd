@@ -18,7 +18,7 @@ func refresh_slot():
 	item_struct = inv_comp.inv_struct_list[slot_index]
 	stack_amount = inv_comp.inv_amount_list[slot_index]
 	
-	if item_struct != null:
+	if is_instance_valid(item_struct):
 		ui_image.texture = item_struct.i_image
 		ui_stackamount.text = str(stack_amount)
 	else:
@@ -32,7 +32,7 @@ func refresh_slot():
 		ui_image.visible = false
 		ui_stackamount.visible = false
 		
-		if item_struct != null:
+		if is_instance_valid(item_struct):
 			item_struct.queue_free()
 	else:
 		ui_image.visible = true
@@ -43,7 +43,7 @@ func _on_gui_input_signal(event):
 	if event is InputEventMouseButton:
 		# not event.pressed means released
 		if event.button_index == BUTTON_RIGHT and not event.pressed:
-			if inv_comp.inv_struct_list[slot_index] != null:
+			if is_instance_valid(inv_comp.inv_struct_list[slot_index]):
 				var interactor_inv_comp = inv_comp.interactor.get_node("InventoryComponent")
 				
 				if inv_comp == interactor_inv_comp:

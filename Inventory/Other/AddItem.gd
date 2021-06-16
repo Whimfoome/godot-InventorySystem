@@ -13,11 +13,11 @@ func _ready():
 	var player = get_tree().get_nodes_in_group("Player")[0]
 	var _succ = connect("interacted", player, "_on_item_interacted")
 	
-	if not directory == null:
+	if is_instance_valid(directory):
 		item = directory.new()
 		$Button/TextureRect.texture = item.i_image
 
 
 func _on_pressed():
-	if not directory == null:
+	if is_instance_valid(directory):
 		emit_signal("interacted", self, item, amount)

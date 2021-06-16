@@ -29,7 +29,7 @@ func prepare_inventory():
 
 func add_to_inventory(struct:IItem, amount:int):
 	var _succ := false
-	if struct != null:
+	if is_instance_valid(struct):
 		if struct.i_stackable:
 			var returned_stack = has_partial_stack(struct)
 			if returned_stack[0]:
@@ -45,7 +45,7 @@ func has_partial_stack(struct:IItem) -> Array:
 	var loc_i: int = -1
 	var loc_b: bool = false
 	for i in range(inv_amount_list.size()):
-		if inv_struct_list[i] != null:
+		if is_instance_valid(inv_struct_list[i]):
 			if inv_struct_list[i].i_name == struct.i_name and inv_amount_list[i] < struct.i_maxstack:
 				loc_i = i
 				loc_b = true
@@ -104,7 +104,7 @@ func add_starting_items():
 func inv_query(item_name: String, item_amount: int) -> bool:
 	var total: int = 0
 	for i in range(inv_struct_list.size()):
-		if inv_struct_list[i] != null:
+		if is_instance_valid(inv_struct_list[i]):
 			if inv_struct_list[i].i_name == item_name:
 				total += inv_amount_list[i]
 	return total >= item_amount
@@ -119,12 +119,12 @@ func use_item_at_slot(index: int):
 
 
 func refresh_slot_at_index(index: int):
-	if window_ref != null:
+	if is_instance_valid(window_ref):
 		window_ref.slot_list[index].refresh_slot()
 
 
 func toggle_window(player):
-	if window_ref == null:
+	if not is_instance_valid(window_ref):
 		interactor = player
 		var new_window = window_scene.instance()
 		new_window.inv_comp = self

@@ -11,7 +11,7 @@ onready var slot = get_parent()
 
 
 func get_drag_data(_pos):
-	if slot.item_struct != null:
+	if is_instance_valid(slot.item_struct):
 		var preview = TextureRect.new()
 		preview.texture = slot.item_struct.i_image
 		preview.expand = true
@@ -33,7 +33,7 @@ func can_drop_data(_pos, data) -> bool:
 
 
 func drop_data(_pos, data):
-	if slot.item_struct != null and slot.item_struct.i_name == data.item_struct.i_name:
+	if is_instance_valid(slot.item_struct) and slot.item_struct.i_name == data.item_struct.i_name:
 		if not slot.item_struct.i_stackable or not data.item_struct.i_stackable:
 			slot.inv_comp.inv_amount_list[slot.slot_index] = data.stack_amount
 			data.inv_comp.inv_amount_list[data.slot_index] = slot.stack_amount
@@ -57,7 +57,7 @@ func drop_data(_pos, data):
 
 func _make_custom_tooltip(_textt):
 	var label = Label.new()
-	if slot.item_struct != null:
+	if is_instance_valid(slot.item_struct):
 		label.text = slot.item_struct.i_description
 	else:
 		label.text = ""
