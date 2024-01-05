@@ -1,23 +1,38 @@
-# Dynamic Inventory System ![Godot 3.2](https://img.shields.io/badge/godot-v3.2-%23478cbf)
-![Screenshot of Dynamic Inventory System](https://i.imgur.com/VTYxkpd.png)
+# Inventory Oasis: Upgraded Version Available
 
-This is easily modifiable Inventory System ready for use. If you need anything further, you can add it. I tried to make the code easy to read.
-If you have any questions, check the [Wiki](https://github.com/Whimfoome/godot-InventorySystem/wiki). Can't find answer? Feel free to [open an issue](https://github.com/Whimfoome/godot-InventorySystem/issues)!
+![Screenshot](assets/screenshot.png)
+![Overview](assets/overview.png)
 
-### How it works:
-- Inventory Component - you add this node to any other node and now it has Inventory. (example: Player, Container). The functions and the data is stored in the component.
-- The Slots are just UI with Item Structure and Amount. For example a slot can contain the information of Apple Item and how much amount it has. It takes this information from the Inventory Component.
-- Inventory Window just makes an array of Slots.
-- Every Item is a different class and that makes the system dynamic. You can make every item to make whatever function you want and is very easy to use.
+## Attention, fellow developers!
 
-### Information:
-- Written in GDScript
-- The system can be extended to almost every type of game that uses Inventory (RPG, Survival, Action-Adventure, etc.)
-- To open the Player Inventory, press `Space` or `Enter`. Other things are made as buttons, but you can implement them in your game in whatever form you want.
-- Use Items with `Right Mouse Button`
-- Inventory Query with `Esc`
-- Supports Slot Drag and Drop by holding `Left Mouse Button` and Tooltips by hovering the mouse over a slot
+I am thrilled to announce the upgraded version of this inventory system, now known as Inventory Oasis! This powerful inventory system has been revamped to offer even more functionality and seamless integration with Godot 4.  This system is tightly integrated with the engine, providing an awesome user experience. With Inventory Oasis, you can manage your inventory with ease, adding and editing items directly through the Inspector.
 
-### Credits:
-- Based on [Ryan Laley's Inventory System Tutorial Series](https://www.youtube.com/watch?v=yxqSkFNAzE0&list=PL4G2bSPE_8uktjEdP4ZuRq5r2o4JMdZfM)
-- Item Images from [Kenney's Assets](https://www.kenney.nl/assets/voxel-pack)
+One of the key benefits of Inventory Oasis is its flexibility. Every 
+item can be extended with custom properties and custom use functions, 
+allowing you to tailor the system to your specific needs. This means you
+ can easily add new item types or modify existing ones to fit your 
+workflow.
+
+Thanks to the close integration with the Godot 4 engine, Inventory 
+Oasis provides a seamless experience for game developers and designers.
+ Whether you're building a 2D or 3D game, you can take advantage of 
+Inventory Oasis's powerful features to manage your game assets with 
+ease.
+
+We hope that you find Inventory Oasis to be a valuable addition to your
+ game development toolkit. Whether you're a seasoned developer or just 
+getting started with Godot 4, Inventory Oasis can help you streamline 
+your workflow and create amazing games.
+
+## Upgrading to Inventory Oasis
+
+For an enhanced experience consider upgrading to [Inventory Oasis](https://whimfoome.itch.io/inventory-oasis).
+
+[DOCUMENTATION](https://inventory-oasis.github.io/docs/intro)
+
+![Inspector](assets/inspector.png)
+![Window](assets/window.png)
+
+### Get the legacy version
+
+If you decide you don't want to upgrade, you can still use the legacy version for Godot 3.X through the [`gd-3.x branch`](https://github.com/Whimfoome/godot-InventorySystem/tree/gd-3.x)
